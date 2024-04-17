@@ -1,0 +1,5 @@
+width: 50
+height: 80
+eight_neighbors: False
+probability: 0.64
+num_infected: 3

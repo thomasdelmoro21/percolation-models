@@ -13,6 +13,10 @@ class Lattice:
         self.randoms = np.random.rand(height, width)
         self.eight_neighbors = eight_neighbors
 
+    def reset(self):
+        self.grid = np.zeros((self.height, self.width))
+        self.randoms = np.random.rand(self.height, self.width)
+
     def infect_node(self, node):
         self.grid[node] = 1
         self.randoms[node] = 0
@@ -34,7 +38,7 @@ class Lattice:
     def get_susceptible_neighbors(self, node):
         neighbors = []
         x, y = node[1], node[0]
-        if y > 0 and not self.is_infected((y - 1, y)):
+        if y > 0 and not self.is_infected((y - 1, x)):
             neighbors.append((y - 1, x))
         if y < self.height - 1 and not self.is_infected((y + 1, x)):
             neighbors.append((y + 1, x))

@@ -4,13 +4,16 @@
 
 import random
 import matplotlib.pyplot as plt
+import numpy as np
 import yaml
+import statistics
 
 from grid import Lattice
 
 
-def infect_random(lattice, num_infected):
-    random.seed(110)
+def infect_random(lattice, num_infected, seed):
+    if seed:
+        random.seed(seed)
     infected_nodes = [(random.randint(0, lattice.height - 1), random.randint(0, lattice.width - 1)) for _ in range(num_infected)]
     lattice.infect_nodes(infected_nodes)
 
@@ -31,32 +34,52 @@ def invade(lattice, probability):
     return infected_fraction, is_process_alive
 
 
-def run_simulation(lattice, num_infected, infection_probability):
-    infect_random(lattice, num_infected)
+def run_simulation(lattice, num_infected, infection_probability, seed=None):
+    infect_random(lattice, num_infected, seed)
     active = True
-    plt.ion()
-    fig = plt.figure()
-    im = plt.imshow(lattice.grid, cmap="viridis")
-    while active:
-        infected_fraction, active = invade(lattice, infection_probability)
-        im.set_data(lattice.grid)
-        fig.canvas.flush_events()
-        plt.pause(0.1)
-
-
-def run_multiple_simulations(lattice, num_infected, infection_probability, num_simulations=10):
-    for sim in range(num_simulations):
-        infect_random(lattice, num_infected)
-        active = True
-        plt.ion()
+    infected_data = []
+    with plt.ion():
         fig = plt.figure()
         im = plt.imshow(lattice.grid, cmap="viridis")
         while active:
             infected_fraction, active = invade(lattice, infection_probability)
+            infected_data.append(infected_fraction)
             im.set_data(lattice.grid)
             fig.canvas.flush_events()
-            plt.pause(0.1)
-        plt.ioff()
+            #plt.pause(0.1)
+    plt.figure()
+    plt.plot(infected_data, 'o', label="Infected sites", color="red")
+    plt.ylabel("Infected fraction")
+    plt.xlabel("Time")
+    plt.title("SIR p={}".format(infection_probability))
+    plt.show()
+
+
+def run_multiple_simulations(lattice, num_infected, num_simulations=10, seed=None):
+    simulations_data = []
+    infection_probabilities = np.linspace(0.1, 1.0, num_simulations)
+    for prob in infection_probabilities:
+        infect_random(lattice, num_infected, seed + i if seed else None)
+        active = True
+        infected_data = []
+        with plt.ion():
+            fig = plt.figure()
+            plt.title("SIR p={}".format(round(prob, 2)))
+            im = plt.imshow(lattice.grid, cmap="viridis")
+            while active:
+                infected_fraction, active = invade(lattice, prob)
+                infected_data.append(infected_fraction)
+                im.set_data(lattice.grid)
+                fig.canvas.flush_events()
+        lattice.reset()
+        simulations_data.append(infected_data[-1])
+    print(simulations_data)
+    plt.figure()
+    plt.plot(infection_probabilities, simulations_data, 'o', label="Infected sites", color="red")
+    plt.ylabel("Infected fraction")
+    plt.xlabel("Infectivity")
+    plt.title("SIR runs={}".format(num_simulations))
+    plt.show()
 
 
 if __name__ == '__main__':
@@ -64,6 +87,6 @@ if __name__ == '__main__':
         opt = yaml.safe_load(f.read())
 
     lattice = Lattice(opt["width"], opt["height"], opt["eight_neighbors"])
-    run_simulation(lattice, opt["num_infected"], opt["probability"])
+    run_multiple_simulations(lattice, opt["num_infected"], opt["num_simulations"], opt["seed"])
 
 

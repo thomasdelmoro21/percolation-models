@@ -1,7 +1,10 @@
-width: 50
-height: 80
-eight_neighbors: False
-probability: 0.64
-num_infected: 3
-num_simulations: 20
-seed: None
+SIR:
+  width: 100
+  height: 100
+  eight_neighbors: False
+  infection_probability: 0.7
+  recover_probability: 0.99
+  recover_rate: 0.1
+  num_infected: 5
+  num_simulations: 20
+  seed:

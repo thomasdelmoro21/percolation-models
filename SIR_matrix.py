@@ -10,14 +10,14 @@ R (Recovered): 2
 import random
 import matplotlib.pyplot as plt
 import numpy as np
-import yaml
 
-width = 40
-height = 40
-eight_neighbors = False
-infection_rate = 0.8
+
+width = 200
+height = 200
+eight_neighbors = True
+infection_rate = 0.4
 recover_rate = 0.1  # 1 / days_to_recover
-num_infected = 1
+num_infected = 20
 num_simulations = 1
 seed = None
 
@@ -49,14 +49,14 @@ def get_susceptible_neighbors(node):
     return susceptible_neighbors
 
 
-def simulate_step():
+def step():
     infected_nodes = get_infected_nodes()
     new_infected = []
     for infected_node in infected_nodes:
         # INFECT NEIGHBORS
         neighbors = get_susceptible_neighbors(infected_node)
         for neighbor in neighbors:
-            if infection_rate > random.random():
+            if infection_rate > random.random() and neighbor not in new_infected:
                 new_infected.append(neighbor)
         # RECOVER
         if random.random() < recover_rate:
@@ -76,7 +76,7 @@ def simulate_SIR():
         fig = plt.figure()
         im = plt.imshow(grid, cmap="viridis", vmin=0, vmax=2)
         while active:
-            simulate_step()
+            step()
             susceptible_data.append(np.count_nonzero(grid == 0) / (width * height))
             infected_data.append(np.count_nonzero(grid == 1) / (width * height))
             recovered_data.append(np.count_nonzero(grid == 2) / (width * height))

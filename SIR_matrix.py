@@ -14,7 +14,7 @@ import numpy as np
 
 width = 200
 height = 200
-eight_neighbors = True
+eight_neighbors = False
 infection_rate = 0.4
 recover_rate = 0.1  # 1 / days_to_recover
 num_infected = 20

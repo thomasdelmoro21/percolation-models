@@ -15,10 +15,11 @@ import numpy as np
 width = 100
 height = 100
 eight_neighbors = True
-infection_rate = 0.2
-recover_rate = 0.5  # 1 / days_to_recover
+infection_rate = 0.6
+recover_rate = 0.2  # 1 / days_to_recover
 num_infected = 1
 num_simulations = 1
+termination_time = 1000
 seed = None
 
 
@@ -78,7 +79,7 @@ def simulate_SIS():
             step()
             susceptible_data.append(np.count_nonzero(grid == 0) / (width * height))
             infected_data.append(np.count_nonzero(grid == 1) / (width * height))
-            if susceptible_data[-1] == 1 or infected_data[-1] == 1 or len(susceptible_data) > 1000:
+            if susceptible_data[-1] == 1 or infected_data[-1] == 1 or len(susceptible_data) > termination_time:
                 active = False
             im.set_data(grid)
             fig.canvas.flush_events()

@@ -20,10 +20,10 @@ eight_neighbors = False
 init_burned = 1
 
 # only if you run one simulation
-density_of_trees = 0.6
+density_of_trees = 0.7
 
 # only if you run multiple simulations
-num_densities = 20  # number of different density value to test
+num_densities = 50  # number of different density value to test
 num_runs = 5  # number of runs per density value
 
 
@@ -95,16 +95,17 @@ def simulate(density, num_burned):
 
 
 def plot_single_simulation(burned_data):
+    data = [burned_data[i] / (density_of_trees * width * height) for i in range(len(burned_data))]
     plt.figure()
-    plt.plot(burned_data, '-o', lw=1)
+    plt.plot(data, '-o')
     plt.xlabel("Time")
-    plt.ylabel("Number of Burned Trees")
+    plt.ylabel("Fraction of Burned Trees")
     plt.title("Forest Fire")
     plt.show()
 
 
 def simulate_multiple():
-    densities = np.linspace(0.1, 0.99, num_densities)
+    densities = np.linspace(0.2, 0.99, num_densities)
     burned_results = []
     for density in densities:
         burned_data = []
@@ -121,4 +122,6 @@ def simulate_multiple():
     plt.show()
 
 
-simulate_multiple()
+burned_data = simulate(density_of_trees, init_burned)
+plot_single_simulation(burned_data)
+#simulate_multiple()

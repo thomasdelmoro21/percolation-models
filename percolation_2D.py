@@ -8,12 +8,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
-width = 100
-height = 100
+width = 200
+height = 200
 eight_neighbors = False
 
 infectivity = 0.5  # only if you run one simulation
-num_runs = 10  # number of runs per infection probability, only if you compute threshold
+
+# only if you compute threshold
+num_runs_per_infectivity = 6  # number of runs per infection probability
+num_infectivities = 25  # number of infection probabilities to test
 
 
 def setup():
@@ -78,22 +81,24 @@ def simulate(infection_probability, plt_block=True):
 
 
 def find_threshold():
-    infectivities = np.linspace(0.55, 0.65, 40)
+    infectivities = np.linspace(0.53, 0.67, num_infectivities)
     threshold_data = []
     for infection_probability in infectivities:
         tot_percolations = 0
-        for i in range(num_runs):
+        for i in range(num_runs_per_infectivity):
             percolated = simulate(infection_probability, plt_block=False)
             if percolated:
                 tot_percolations += 1
-        threshold_data.append(tot_percolations / num_runs)
+        threshold_data.append(tot_percolations / num_runs_per_infectivity)
 
     fig, ax = plt.subplots()
     ax.plot(infectivities, threshold_data, 'o', color="red")
-    rect = patches.Rectangle((0.5827, 0.), 0.02, 1.0, linewidth=0.8, edgecolor="#dddddd", facecolor="None")
-    ax.add_patch(rect)
+    ax.axvline(x=0.5927, color="#dddddd", linestyle="--")
+    ax.xlabel("Infectivity")
+    ax.ylabel("Percolation Fraction")
+    ax.title("Percolation Threshold")
     plt.show()
 
 
-# simulate(infectivity)
+#simulate(infectivity)
 find_threshold()

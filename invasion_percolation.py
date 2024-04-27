@@ -9,11 +9,11 @@ import statistics
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
-width = 100
-height = 100
+width = 200
+height = 200
 eight_neighbors = False
 
-num_runs = 5  # from 1 to infinity
+num_runs = 20  # from 1 to infinity
 
 
 def setup():
@@ -105,7 +105,7 @@ def find_threshold():
     plt.plot(thresholds, '-o', label="Threshold")
     plt.plot(thresholds_means, '-o', label="Threshold Mean")
     plt.legend()
-    plt.ylabel("Infectivity")
+    plt.ylabel("Threshold Estimate")
     plt.xlabel("N_Runs")
     plt.title("Threshold Estimate: {}".format(round(thresholds_means[-1], 4)))
     plt.show()

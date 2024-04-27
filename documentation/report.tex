@@ -199,7 +199,7 @@
          \centering
          \includegraphics[width=\linewidth]{../images/sis_image2}
      \end{subfigure}
-     \caption{Simulazione del modello SIS con infettività $p=0.2$ e tasso di guarigione $r=0.5$.}
+     \caption{Simulazione del modello SIS con infettività $p=0.2$ e tasso di guarigione $g=0.5$.}
      \label{fig:sis_image}
     \end{figure}
     In questo caso le curve saranno diverse da quelle del modello SIR, poiché non abbiamo una frazione di refrattari.
@@ -211,20 +211,127 @@
         \begin{subfigure}[b]{0.49\linewidth}
          \centering
          \includegraphics[width=\linewidth]{../images/SIS_curves}
-            \caption{Simulazione SIS con $p=0.6$ e $r=0.2$}
+            \caption{Simulazione SIS con $p=0.6$ e $g=0.2$}
      \end{subfigure}
         \hfill
         \begin{subfigure}[b]{0.49\linewidth}
          \centering
          \includegraphics[width=\linewidth]{../images/SIS_curves1}
-            \caption{Simulazione SIS con $p=0.2$ e $r=0.5$}
+            \caption{Simulazione SIS con $p=0.2$ e $g=0.5$}
      \end{subfigure}
      \caption{Curve empiriche di due simulazioni del modello SIS.}
      \label{fig:sis_curves}
     \end{figure}
 
     \section{Percolazione}
-
+    Il modello SIR è analogo alla crescita di una componente di percolazione standard connesso al sito di partenza.
+    La percolazione standard è un modello fondamentale della teoria dei sistemi complessi che studia la formazione di un
+    percorso connesso attraverso una rete in funzione di una certa probabilità di occupazione dei siti nella rete stessa.
+    Il concetto chiave della percolazione standard è la ricerca di un percorso connesso o \textit{cluster} che attraversa
+    la rete da un lato all'altro. Essa studia quindi come la presenza di occupazioni casuali nei siti influenzi la
+    probabilità di avere un percorso connesso che attraversi l'intera rete.
+    La percolazione può essere utilizzata per comprendere fenomeni come la conduttività elettrica dei materiali disordinati,
+    la diffusione di fluidi attraverso mezzi porosi e la propagazione di informazioni o malattie attraverso reti sociali.\\
+    In questo senso, dunque, è possibile costruire un modello di percolazione che rappresenti la diffusione dell'epidemia
+    all'interno di una popolazione. In questo modello, i siti della rete rappresentano gli individui della popolazione e
+    i legami tra i siti rappresentano i contatti sociali tra gli individui. La probabilità di occupazione di un sito
+    dipende da dei numeri casuali e corrisponde alla probabilità che l'individuo sia infetto. Ciò che cerchiamo è dunque
+    un percorso connesso di siti infetti che attraversi interamente la rete, indicando una diffusione dell'epidemia in
+    tutta la popolazione.\\
+    Vediamo più in dettaglio il modello fin qui descritto, in particolare riferendoci a un sottoinsieme di problemi di
+    percolazione detto \textit{Site Percolation}. Ad ogni sito può essere associato un valore binario $x_i$, che
+    rappresenta lo stato del sito: $x_i=1$ se il sito è infetto, $x_i=0$ altrimenti. La probabilità di infezione di un
+    sito dipende dal parametro di infettività $p$ e da un numero casuale $r_i$ associato al sito. Inseriamo infine una
+    variabile temporale $t$ che ci servirà per descrivere l'evoluzione dell'epidemia. Possiamo definire l'evoluzione dello
+    stato del sito $i$ al tempo $t$ come:
+    \[x_i(t)=x_i(t-1)\lor[r_i < p]\left[\sum_{j} a_{ij}x_j(t-1)>0 \right]\]
+    dove $a_{ij}$ è la matrice di adiacenza del grafo, ovvero $a_{ij}=1$ se i siti $i$ e $j$ sono vicini, $0$ altrimenti;
+    mentre $[\cdot]$ è la funzione di verità che restituisce $1$ se la condizione tra parentesi è vera, $0$ altrimenti.
+    Notiamo che i numeri casuali $r_i$ rimangono costanti nel tempo, dunque per un certo valore di $p$ e una data
+    configurazione iniziale i cluster crescono fino a un certo punto e poi si arrestano.\\
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}[b]{0.49\linewidth}
+         \centering
+         \includegraphics[width=\linewidth]{../images/percolation_image1}
+     \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.49\linewidth}
+         \centering
+         \includegraphics[width=\linewidth]{../images/percolation_image2}
+     \end{subfigure}
+     \caption{Simulazioni del modello di percolazione con diversi gradi di infettività.}
+     \label{fig:percolation_image}
+    \end{figure}
+    In Figura \ref{fig:percolation_image} sono mostrate due simulazioni del modello di percolazione. Nel reticolo sulla
+    sinistra, con una probabilità di infezione $p=0.5$, non è possibile trovare un percorso connesso di siti infetti che
+    attraversi l'intera rete. Al contrario, nel reticolo sulla destra, con $p=0.6$, si può osservare un caso di percolazione,
+    ovvero è presente un percorso connesso che attraversa tutto la griglia. Questo indica che l'epidemia si è diffusa in
+    tutta la popolazione.\\
+    Può dunque essere interessante cercare la criticità dell'infezione, ovvero il valore di soglia che separa i due
+    regimi di percolazione e non percolazione.
+    \subsection{Criticità}
+    La soglia di criticità, che indichiamo con $p_c$, può essere stimata attraverso diversi metodi; in questo studio
+    analizzeremo prima di tutto il metodo più semplice, ovvero quello di eseguire molte simulazioni modificando ogni
+    volta il parametro di infettività.
+    Dopodiché utilizzeremo un metodo più sofisticato, basato sulla formulazione SOC (Self-Organized Criticality), che
+    permette di ottenere una stima affidabile eseguendo una sola simulazione.\\
+    Vediamo in questa sezione i risultati ottenuti con il metodo più semplice. Costruiamo più volte un reticolo
+    analogo ai precedenti, in cui si inizializzano come infetti tutti i siti sulla prima riga. Ad ogni step, quindi,
+    ogni sito sano sarà infettato da un vicino infetto con una certa probabilità $p$. Modifichiamo il valore di $p$ a
+    ogni simulazione in modo da ottenere una curva di percolazione.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.6\linewidth]{../images/percolation_critical}
+        \caption{Percentuale di percolazioni rispetto al numero di simulazioni, al variare del valore di infettività.
+                    Valore di soglia toerico $p_c=0.5927$}
+        \label{fig:percolation_critical}
+    \end{figure}
+    Come si può osservare in Figura \ref{fig:percolation_critical}, la curva assume una caratteristica forma a S e rispetta
+    il valore di soglia teorico per un reticolo 2D pari a $p_c = 0.5927$.
+    Nonostante si riesca a trovare una stima affidabile di criticità, questo metodo è computazionalmente molto costoso,
+    può essere vantaggioso utilizzare metodi più efficienti come quello che mostreremo di seguito.
+    \subsection{Percolazione Auto-Organizzata (SOC)}
+    La formulazione SOC (Self-Organized Criticality) è utilizzata in diversi contesti e può essere applicata nel nostro
+    caso per ottenere una stima affidabile del valore di soglia di percolazione. Ciò che è necessario inizialmente è
+    mappare il nostro problema di percolazione in un SOC equivalente e, per farlo, possiamo utilizzare un metodo chiamato
+    \textit{Invasion Percolation}.\\
+    Vediamo prima la formulazione matematica del problema, dopodiché passiamo alla progettazione pratica del modello.
+    Supponiamo di avere un reticolo 2D e una certa probabilità di infezione $p$. Come nel caso precedente, a ogni sito
+    associamo uno stato binario $x_i$ e un numero casuale $r_i$. Definiamo inoltre una variabile $t$ che rappresenta il
+    i diversi istanti di tempo. Ricordiamo che l'evoluzione dello stato del sito $i$ al tempo $t$ è data da:
+    \[x_i(t)=x_i(t-1)\lor[r_i < p]\left[\sum_{j} a_{ij}x_j(t-1)>0 \right].\]
+    Riscriviamo per semplicità il secondo termine:
+    \[x_i(t)=x_i(t-1)\lor\left([r_i < p]\land \left(\bigvee\limits_{j:a_{ij}=1} x_j(t)\right)\right).\]
+    Possiamo sostituire lo stato $x_i(t)$ con $[p>p_i(t)]$ poiché il sito si bagna (si infetta) solo se la probabilità
+    di infezione è maggiore della sua soglia critica $p_i(t)$. Allora l'espressione diventa:
+    \[[p_i(t+1) < p]=[p_i(t)<p] \lor \left( [r_i<p]\left( \bigvee\limits_{j:a_{ij}=1}[p_j(t)<p] \right) \right).\]
+    In generale, sappiamo che valgono $[a<p]\land[b<p]=[\max(a,b)<p]$ e $[a<p]\lor[b<p]=[\min(a,b)<p]$. Allora la nostra
+    espressione diventa:
+    \[[p_i(t+1)<p]=\left[\min\left( p_i(t), \max\left( r_i, \min_{j:a{ij}=1}\left( p_j(t)\right) \right) \right)<p\right].\]
+    A questo punto diventa semplice estrarre un'equazione per la soglia di criticità $p_i$:
+    \[p_i(t+1)=\min\left( p_i(t), \max\left( r_i, \min_{j:a{ij}=1}\left( p_j(t)\right) \right) \right).\]
+    Iterando finché non si raggiunge un fenomeno di percolazione, possiamo ottenere una distribuzione di $p_i$ che tende a $p_c$.\\
+    Vediamo adesso come implementare questo metodo all'interno del nostro reticolo. Si può pensare di inizializzare tutti
+    i siti della prima riga come infetti. La probabilità di infezione $p$ può essere inizializzata a zero e poi aumentata
+    ad ogni step dell'algoritmo. Ad ogni iterazione, si cerca, tra tutti i vicini degli infetti, il sito $i$ con la soglia di
+    criticità $p_i$ minore; si aumenta dunque l'infettività a $p=p_i$ e si infetta tale sito, dopodiché di bagnano anche
+    tutti i nodi adiacenti $j$ che hanno $p_j<p$. Quando non ci sono più nodi infettabili, si esegue una nuova ricerca del minimo
+    e il processo viene ripetuto finché non si raggiunge uno stato di percolazione del reticolo.\\
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}[b]{0.49\linewidth}
+         \centering
+         \includegraphics[width=\linewidth]{../images/invasionpercolation_image}
+     \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.49\linewidth}
+         \centering
+         \includegraphics[width=\linewidth]{../images/invasionpercolation}
+     \end{subfigure}
+     \caption{Simulazioni del modello di percolazione SOC per la ricerca della soglia di criticità.}
+     \label{fig:invasion_percolation}
+    \end{figure}
 
     \section{Conclusioni}
 

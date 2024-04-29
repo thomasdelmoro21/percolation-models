@@ -94,8 +94,8 @@ def find_threshold():
     fig, ax = plt.subplots()
     ax.plot(infectivities, threshold_data, 'o', color="red")
     ax.axvline(x=0.5927, color="#dddddd", linestyle="--")
-    ax.xlabel("Infectivity")
-    ax.ylabel("Percolation Fraction")
+    ax.set_xlabel("Infectivity")
+    ax.set_ylabel("Percolation Fraction")
     ax.title("Percolation Threshold")
     plt.show()
 

@@ -323,27 +323,46 @@
         \begin{subfigure}[b]{0.49\linewidth}
          \centering
          \includegraphics[width=\linewidth]{../images/invasionpercolation_image}
+            \caption{Immagine di una simulazione sul reticolo.}
      \end{subfigure}
         \hfill
         \begin{subfigure}[b]{0.49\linewidth}
          \centering
          \includegraphics[width=\linewidth]{../images/invasionpercolation}
+            \caption{Stime della soglia di criticità ottenute con più simulazioni.}
      \end{subfigure}
      \caption{Simulazioni del modello di percolazione SOC per la ricerca della soglia di criticità.}
      \label{fig:invasion_percolation}
     \end{figure}
+    Con il metodo descritto è possibile ottenere una stima abbastanza affidabile del valore di soglia di percolazione
+    con un'unica simulazione. In Figura \ref{fig:invasion_percolation} (destra) sono mostrati i risultati ottenuti a
+    partire da una sola simulazione fino a 20. Notiamo che eseguendo il processo più volte si ottiene una stima sempre
+    più precisa, ma già inizialmente il valore ottenuto è molto vicino a quello teorico di $p_c = 0.5927$.\\
+    Come si può facilmente intuire, il metodo SOC è molto più efficiente rispetto a quello delle molte simulazioni;
+    anche eseguendolo più volte infatti, il tempo di calcolo è molto inferiore rispetto al metodo precedente.
 
     \section{Conclusioni}
+    Nell'ambito di questo studio, abbiamo esaminato una serie di modelli epidemiologici, a partire dal più semplice modello
+    Forest Fire fino ad arrivare al meccanismo di percolazione. Attraverso varie simulazioni abbiamo descritto quelli che
+    sono i tipici andamenti delle curve di diffusione di un'epidemia all'interno di una popolazione. Abbiamo inoltre
+    esaminato come variabili come la densità di popolazione, i contatti tra gli individui e le strategie di mitigazione
+    possano influenzare la diffusione dell'epidemia. Infine, abbiamo spostato la nostra attenzione sul calcolo della soglia
+    di criticità di un'epidemia, che abbiamo calcolato attraverso un modello di percolazione auto-organizzato.
+    Tutto questo ci ha permesso di ottenere una visione più chiara di come i modelli epidemiologici possano essere utilizzati
+    per comprendere e gestire fenomeni epidemici complessi.\\
+    Tutti le simulazioni sono state eseguite utilizzando un semplice reticolo 2D, ma è possibile estendere questi modelli
+    a modelli di popolazione più complessi, ad esempio basandoci sui grafi di tipo Scale-Free o Small-World, che potrebbero
+    fornire una rappresentazione più realistica delle interazioni sociali umane.
 
     \begin{thebibliography}{9}
-\bibitem{lapucci}
-Matteo Lapucci, Davide Pucci (2023) \emph{Mixed-integer quadratic programming reformulations of multi-task learning models}
+\bibitem{review}
+F. Bagnoli, E. Bellini, E. Massaro, R. Retchman (2019) \emph{Percolation and Internet Science}
 
-\bibitem{c-kmeans}
-P. S. Bradley, K. P. Bennett, A. Demiriz (2000) \emph{Constrained K-Means Clustering}
+\bibitem{risk_perception}
+E. Massaro, F. Bagnoli (2014) \emph{Epidemic spreading and risk perception in multiplex networks: a self-organized percolation method}
 
-\bibitem{b-kmeans}
-Mikko I. Malinen, Pasi Fränti (2014) \emph{Balanced K-Means for Clustering}
+\bibitem{epidemic_threshold}
+F. Bagnoli, E. Bellini, E. Massaro (2018) \emph{A Self-Organized Percolation Method for Computing the Epidemic Threshold in Computer Networks}
 
 \end{thebibliography}
 

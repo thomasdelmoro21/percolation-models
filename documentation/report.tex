@@ -30,7 +30,7 @@
     \maketitle
     \begin{abstract}
         Questo studio esplora l'applicazione di vari modelli di epidemie nell'ambito della fisica statistica e dei
-        sistemi complessi, in particolare per quanto riguarda la dissusione di malattie infettive in una popolazione o
+        sistemi complessi, in particolare per quanto riguarda la diffusione di malattie infettive in una popolazione o
         la percolazione di informazioni in una rete sociale.
         Attraverso l'applicazione di questi modelli, esaminiamo fattori come la densità di popolazione, i contatti fra
         gli individui e le strategie di mitigazione basate sulla percezione del rischio.
@@ -59,7 +59,7 @@
     Il modello più semplice di un'epidemia trascura completamente la dinamica dell'agente virale. Se supponiamo inoltre
     che gli ospiti non si muovano e siano disposti su una griglia regolare con una certa densità.
     Otteniamo in questo modo il modello di diffusione di un incendio boschivo senza vento (Forest Fire).\\
-    Ogni cella della griglia può essere in uno di tre stati: vuota, occupata da un albero sano o occupata da un albero
+    Ogni cella della griglia può essere in uno di tre stati: vuota, occupata da un albero sano oppure occupata da un albero
     incendiato. Per semplicità abbiamo trascurato il caso di albero già bruciato (immune), che vedremo nella prossima sezione.\\
     Il processo di diffusione segue una curva a S, più o meno ripida e lunga a seconda del parametro di densità.
     In particolare, se la densità è troppo bassa, l'incendio si estinguerà rapidamente, mentre se questa è alta l'incendio
@@ -106,7 +106,7 @@
     Il modello SIR rappresenta uno dei più conosciuti e più semplici modelli epidemiologici.
     È in parte analogo al modello Forest Fire, ma con una dinamica probabilistica, leggermente più complessa di quella vista sopra.\\
     Supponiamo di avere una popolazione di $N$ individui disposti su una griglia. In questo caso tutte le celle sono
-    occupate da un individuo, ma questo, ad ogni istante di tempo, sarà infettato dagli individui vicini solo con una certa probabilità $p$.
+    occupate da un individuo, ma questo, a ogni istante di tempo, sarà infettato dagli individui vicini solo con una certa probabilità $p$.
     Le celle possono dunque essere suddivise nelle tre categorie:
     \begin{itemize}
         \item \textbf{Suscettibili (S)}: individui sani che possono essere infettati.
@@ -282,9 +282,10 @@
     ogni simulazione in modo da ottenere una curva di percolazione.
     \begin{figure}[H]
         \centering
-        \includegraphics[width=0.6\linewidth]{../images/percolation_critical}
+        \includegraphics[width=0.6\linewidth]{../images/percolation_threshold}
         \caption{Percentuale di percolazioni rispetto al numero di simulazioni, al variare del valore di infettività.
-                    Valore di soglia toerico $p_c=0.5927$}
+                    La riga verticale tratteggiata indica il valore di soglia teorico $p_c=0.5927$. I risultati sono stati ottenuti eseguendo 10 simulazioni per
+                    ogni diverso valore di $p$, dopodiché è stata calcolata la frazione di percolazioni su tale numero.}
         \label{fig:percolation_critical}
     \end{figure}
     Come si può osservare in Figura \ref{fig:percolation_critical}, la curva assume una caratteristica forma a S e rispetta

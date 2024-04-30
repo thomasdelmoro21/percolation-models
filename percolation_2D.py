@@ -15,8 +15,8 @@ eight_neighbors = False
 infectivity = 0.5  # only if you run one simulation
 
 # only if you compute threshold
-num_runs_per_infectivity = 6  # number of runs per infection probability
-num_infectivities = 25  # number of infection probabilities to test
+num_runs_per_infectivity = 8  # number of runs per infection probability
+num_infectivities = 30  # number of infection probabilities to test
 
 
 def setup():
@@ -81,7 +81,7 @@ def simulate(infection_probability, plt_block=True):
 
 
 def find_threshold():
-    infectivities = np.linspace(0.53, 0.67, num_infectivities)
+    infectivities = np.linspace(0.45, 0.75, num_infectivities)
     threshold_data = []
     for infection_probability in infectivities:
         tot_percolations = 0
@@ -95,8 +95,8 @@ def find_threshold():
     ax.plot(infectivities, threshold_data, 'o', color="red")
     ax.axvline(x=0.5927, color="#dddddd", linestyle="--")
     ax.set_xlabel("Infectivity")
-    ax.set_ylabel("Percolation Fraction")
-    ax.title("Percolation Threshold")
+    ax.set_ylabel("Percolations")
+    ax.set_title("Percolation Threshold")
     plt.show()
 
 

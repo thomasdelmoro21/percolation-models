@@ -13,12 +13,12 @@ import numpy as np
 
 width = 200
 height = 200
-eight_neighbors = True
-infection_rate = 0.8
+eight_neighbors = False
+infection_rate = 0.4
 recover_rate = 0.1  # 1 / days_to_recover
 num_infected = 10
 num_simulations = 1
-seed = 110
+seed = 111
 
 
 def infect_random():
@@ -165,6 +165,6 @@ def plot_neighbors():
 
 grid = np.zeros((height, width))
 
-#simulate_multiple_SIR()
+simulate_multiple_SIR()
 # simulate_infectivities()
-plot_neighbors()
+# plot_neighbors()

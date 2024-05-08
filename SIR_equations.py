@@ -3,20 +3,20 @@ from scipy.integrate import odeint
 import matplotlib.pyplot as plt
 
 # Total population, N.
-N = 10000
+N = 40000
 # Initial number of infected and recovered individuals, I0 and R0.
-I0, R0 = 1, 0
+I0, R0 = 20, 0
 # Everyone else, S0, is susceptible to infection initially.
 S0 = N - I0 - R0
 # Contact rate, beta, and mean recovery rate, gamma, (in 1/days).
 beta, gamma = 0.4, 1./10
 # A grid of time points (in days)
-t = np.linspace(0, 160, 160)
+t = np.linspace(0, 130, 130)
 
 # The SIR model differential equations.
 def deriv(y, t, N, beta, gamma):
     S, I, R = y
-    dSdt = -beta * S * I / N
+    dSdt = - beta * S * I / N
     dIdt = beta * S * I / N - gamma * I
     dRdt = gamma * I
     return dSdt, dIdt, dRdt
@@ -33,9 +33,9 @@ ax = fig.add_subplot(111, facecolor='#dddddd', axisbelow=True)
 ax.plot(t, S/N, 'b', alpha=0.5, lw=2, label='Susceptible')
 ax.plot(t, I/N, 'r', alpha=0.5, lw=2, label='Infected')
 ax.plot(t, R/N, 'g', alpha=0.5, lw=2, label='Recovered')
-ax.set_xlabel('Time /days')
-ax.set_ylabel('Number (10000s)')
-ax.set_ylim(0,1.2)
+ax.set_xlabel('Time / days')
+ax.set_ylabel('Fraction of population')
+#ax.set_ylim(0,1.2)
 ax.yaxis.set_tick_params(length=0)
 ax.xaxis.set_tick_params(length=0)
 legend = ax.legend()

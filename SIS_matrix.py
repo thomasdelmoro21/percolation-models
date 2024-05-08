@@ -15,8 +15,8 @@ import numpy as np
 width = 100
 height = 100
 eight_neighbors = True
-infection_rate = 0.6
-recover_rate = 0.2  # 1 / days_to_recover
+infection_rate = 0.4
+recover_rate = 0.5  # 1 / days_to_recover
 num_infected = 1
 num_simulations = 1
 termination_time = 1000
@@ -117,5 +117,5 @@ def plot_simulation(susceptible_data, infected_data):
 
 
 grid = np.zeros((height, width))
-simulate_multiple_SIS()
+simulate_SIS()
 
